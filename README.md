@@ -55,3 +55,4 @@ python -m unittest discover -s tests -v
 ```
 
 The tests use synthetic workflows and scheduler records. Live cluster behavior still needs verification on your HPC.
+# gwf-doctor
