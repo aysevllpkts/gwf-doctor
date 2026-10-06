@@ -4,7 +4,7 @@ An HPC command-line tool that connects GWF targets to Slurm failure evidence, mi
 
 ## Install on HPC
 
-Transfer this directory to the cluster, activate your existing GWF environment, then:
+Clone this repository to the cluster, activate your existing GWF environment, then:
 
 ```sh
 python -m pip install --no-deps /path/to/gwf-doctor
@@ -12,11 +12,11 @@ cd /path/to/pipeline
 gwf-doctor
 ```
 
-Tested against the PyPI GWF 1.7.2 release and the upstream GWF source; live Slurm has not yet been tested. Requires Python 3.9+ and GWF 1.7.2 or newer (below 4.0). `--no-deps` preserves your installed GWF version. No administrator privileges or Mac component needed. You can also run `python /path/to/gwf-doctor/gwf_doctor.py` without installing.
+Tested against the PyPI GWF 1.7.2 release and the upstream GWF source; live Slurm has not yet been tested. Requires Python 3.9+ and GWF 1.7.2 or newer. `--no-deps` preserves your installed GWF version. You can also run `python /path/to/gwf-doctor/gwf_doctor.py` without installing.
 
 ```sh
-gwf-doctor /path/to/pipeline --all
-gwf-doctor --target 'Sample_042*' --tail 20
+gwf-doctor /path/to/pipeline --all > gwf_summary.log
+gwf-doctor --target 'Sample_042_run*' --tail 20
 gwf-doctor --workflow workflow.py:gwf --json > doctor-report.json
 ```
 
@@ -37,7 +37,7 @@ Exit codes: 0 = no diagnosed problems; 1 = attention needed; 2 = inspection erro
 
 ## Operational limits
 
-Doctor imports GWF in a temporary directory to contain legacy import-time log-directory creation. Doctor does not submit, cancel, rerun, delete, or modify GWF state. It loads your workflow using GWF, which executes its Python top-level code just like GWF itself; use your own trusted workflow and avoid top-level side effects. It does not call `gwf status`, because initializing GWF backends can migrate logs or rewrite tracking state.
+Doctor imports GWF in a temporary directory to contain legacy import-time log-directory creation. It does not submit, cancel, rerun, delete, or modify GWF state. It loads your workflow using GWF, which executes its Python top-level code just like GWF itself; use your own trusted workflow and avoid top-level side effects. It does not call `gwf status`, because initializing GWF backends can migrate logs or rewrite tracking state.
 
 This is a snapshot, not a monitor. Scheduler and filesystem state can change while inspecting. GWF tracking and logs normally represent the latest attempt, not an archive. Historical jobs removed from tracking cannot be diagnosed. Doctor does not reproduce GWF spec hashes/timestamp freshness decisions or validate genomic outputs.
 
