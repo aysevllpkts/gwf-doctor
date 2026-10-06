@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gwf-doctor"
+version = "0.1.0"
+description = "Inspect GWF target failures on Slurm"
+requires-python = ">=3.9"
+dependencies = ["gwf>=1.7.2,<4"]
+
+[project.scripts]
+gwf-doctor = "gwf_doctor:main"
+
+[tool.setuptools]
+py-modules = ["gwf_doctor"]
